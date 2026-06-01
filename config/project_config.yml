@@ -1,0 +1,12 @@
+project:
+  name: module2_data_engineering_project
+  dataset: olist_brazilian_ecommerce
+
+warehouse:
+  type: duckdb
+  path: data/warehouse/module2_project.duckdb
+
+schemas:
+  raw: raw
+  warehouse: warehouse
+

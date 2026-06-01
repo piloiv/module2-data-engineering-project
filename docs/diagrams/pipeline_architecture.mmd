@@ -1,0 +1,11 @@
+flowchart LR
+    A["Raw CSV files"] --> B["Ingestion script"]
+    B --> C["DuckDB raw schema"]
+    C --> D["SQL ELT transformations"]
+    D --> E["Warehouse star schema"]
+    E --> F["SQL data quality checks"]
+    E --> G["Python analysis notebook"]
+    F --> H["Validated warehouse"]
+    G --> I["Executive insights"]
+    H --> I
+    I --> J["Report and slide deck"]
