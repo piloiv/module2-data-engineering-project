@@ -2,7 +2,9 @@
 
 ## Business Process
 
-The modeled business process is e-commerce order item sales. Each row in `warehouse.fact_sales` represents one purchased product line within an order.
+The modeled business process is e-commerce order item marketplace activity. Each row in `warehouse.fact_sales` represents one purchased product line within an order.
+
+For business interpretation, item prices and freight values should be treated as GMV-style transaction measures. They are not the same as Olist revenue because the public dataset does not include Olist commission rates, seller subscription fees, logistics margins, financial services revenue, or operating costs.
 
 ## Fact Table Grain
 
@@ -10,7 +12,7 @@ The modeled business process is e-commerce order item sales. Each row in `wareho
 
 This grain supports:
 
-- Monthly revenue and order trends
+- Monthly GMV and order trends
 - Product category performance
 - Seller performance
 - Customer geography analysis
@@ -29,9 +31,9 @@ This grain supports:
 
 | Measure | Definition |
 | --- | --- |
-| `price` | Item sale price before freight |
+| `price` | Item sale price before freight; used as product GMV |
 | `freight_value` | Shipping charge for the order item |
-| `total_sale_amount` | `price + freight_value` |
+| `total_sale_amount` | `price + freight_value`; gross transaction value at item grain |
 | `payment_value` | Total payment value aggregated at order level |
 | `payment_installments` | Maximum installment count used for the order |
 | `payment_type_count` | Number of distinct payment methods used for the order |
@@ -41,4 +43,6 @@ This grain supports:
 
 ## Design Rationale
 
-The star schema separates descriptive context into dimensions and numeric business events into the fact table. This makes common analytics queries simpler and faster because analysts can aggregate sales by date, customer location, seller, and product category without repeatedly joining the raw operational tables.
+The star schema separates descriptive context into dimensions and numeric business events into the fact table. This makes common analytics queries simpler and faster because analysts can aggregate GMV by date, customer location, seller, and product category without repeatedly joining the raw operational tables.
+
+The design intentionally keeps `dim_seller` connected to every order item. That makes seller health analysis a first-class use case: active sellers, GMV per seller, seller concentration, seller geography, delivery performance, and review outcomes can all be measured from the same validated fact table.

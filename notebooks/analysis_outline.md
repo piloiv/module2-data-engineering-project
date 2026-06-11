@@ -6,18 +6,24 @@ The working notebook is `notebooks/olist_warehouse_analysis.ipynb`. Use this out
 
 1. Connect to the warehouse with SQLAlchemy or DuckDB.
 2. Inspect table row counts and sample records.
-3. Calculate monthly sales trends.
+3. Calculate monthly GMV trends.
 4. Identify top-selling product categories.
-5. Segment customers by purchase frequency and total spend.
-6. Visualize key findings.
-7. Summarize business recommendations.
+5. Analyze seller performance, active sellers, seller concentration, and seller retention proxies.
+6. Segment customers by purchase frequency and total spend.
+7. Visualize key findings.
+8. Summarize business recommendations.
 
 ## Suggested Metrics
 
-- Total revenue
+- Product GMV
+- Gross transaction value
 - Number of orders
 - Average order value
-- Monthly revenue trend
+- Monthly GMV trend
+- Active sellers
+- GMV per seller
+- Top seller concentration
+- Seller review and delivery performance
 - Top product categories
 - Top customer states/cities
 - Repeat customer behavior

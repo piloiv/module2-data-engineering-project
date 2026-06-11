@@ -4,13 +4,13 @@ End-to-end data pipeline and analysis project for the Module 2 assignment.
 
 ## Project Goal
 
-Build a data pipeline that ingests raw business data, loads it into a warehouse, transforms it into a star schema, validates data quality, and produces business insights for an executive audience.
+Build a data pipeline that ingests raw business data, loads it into a warehouse, transforms it into a star schema, validates data quality, and produces business insights for an executive audience. The business lens is Olist as a seller enablement platform, not a direct online retailer.
 
 ## Recommended Dataset
 
 Primary recommendation: Brazilian E-Commerce Dataset by Olist.
 
-This dataset is well suited because it supports customers, orders, products, sellers, payments, reviews, geography, and sales analysis.
+This dataset is well suited because it supports customers, orders, products, sellers, payments, reviews, geography, and sales analysis. Transaction values in the public dataset are treated as GMV-style marketplace activity, not confirmed Olist revenue.
 
 ## Deliverables
 
@@ -23,6 +23,7 @@ This dataset is well suited because it supports customers, orders, products, sel
 - Architecture and lineage documentation
 - Technical report
 - Executive slide deck
+- Seller-centric strategic dashboard queries
 
 ## Project Structure
 
@@ -63,7 +64,8 @@ config/                Project configuration
 2. Install dependencies with `pip install -r requirements.txt`.
 3. Run `python src/run_pipeline.py` to ingest raw files, build the star schema, and execute quality checks.
 4. Analyze warehouse data in `notebooks/olist_warehouse_analysis.ipynb`.
-5. Summarize findings in `docs/report_outline.md` and `slides/executive_deck_outline.md`.
+5. Run seller-focused strategy queries in `sql/analysis/seller_strategy_dashboard.sql`.
+6. Summarize findings in `docs/report_outline.md` and `slides/executive_deck_outline.md`.
 
 ## Warehouse Model
 
@@ -73,6 +75,7 @@ The DuckDB database is written to `data/warehouse/module2_project.duckdb`.
 - Modeled analytics tables are stored in the `warehouse` schema.
 - `warehouse.fact_sales` is one row per order item.
 - Dimensions include customer, product, seller, and date.
+- Seller analysis is a first-class use case because Olist's primary business customers are merchants.
 
 ## Data Quality Coverage
 
