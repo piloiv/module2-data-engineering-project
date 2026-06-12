@@ -1,63 +1,57 @@
-# Executive Slide Deck Outline
+# Executive Deck Outline
 
-Recommended duration: 10 minutes presentation plus 5 minutes Q&A.
+Final deck: `slides/olist-seller-enablement-final-story-deck.pptx`
 
-## Slide 1: Olist Seller Enablement Analytics Warehouse
+## Thesis
 
-Message: We built an end-to-end warehouse and analysis workflow that converts raw marketplace data into executive-ready seller, GMV, product, customer, and delivery insights.
+The project now lands as both a technical build and a business operating story. The warehouse, dbt marts, Streamlit dashboard, and Dagster-ready orchestration translate public Olist marketplace activity into seller-growth decisions.
 
-## Slide 2: Business Case
+## Slide Claim Spine
 
-Message: The business case is seller success, not direct retail sales. Public transaction data should be used to identify where Olist can protect sellers, remove friction, and expand seller services.
+1. **Olist Seller Enablement**  
+   A modern data stack turns marketplace activity into seller-growth decisions.
 
-## Slide 3: Business Model
+2. **Business Case**  
+   The right decision basis is seller success, not direct retail sales.
 
-Message: Olist connects SMEs to marketplaces and monetizes seller enablement. Orders and buyers create the data trail, but sellers are Olist's primary clients.
+3. **Business Model**  
+   Olist monetizes seller enablement; the dataset captures early marketplace scale formation.
 
-## Slide 4: Executive Summary
+4. **Modernized Pipeline**  
+   Raw files now flow through dbt, quality checks, orchestration, and dashboarding.
 
-Message: Olist is best understood as a seller enablement platform, not a direct retailer. The solution creates a validated star schema that helps executives understand platform activity and seller success.
+5. **Warehouse Model**  
+   The model separates item-level sales from order-level payments and exposes decision marts.
 
-## Slide 5: Pipeline Architecture
+6. **Growth Readout**  
+   Growth reads correctly after excluding the partial final month.
 
-Message: CSV files flow into DuckDB raw tables, SQL transformations build the star schema, quality checks validate the warehouse, and Python notebooks produce insights.
+7. **Seller Health**  
+   Seller health turns transaction data into four account-management actions: protect, grow, fix experience, and activate.
 
-## Slide 6: Data Warehouse Design
+8. **Concentration Risk**  
+   A small seller group drives a large share of marketplace activity.
 
-Message: `fact_sales` sits at order-item grain and joins to customer, product, seller, and date dimensions for efficient analysis. Transaction values are interpreted as GMV-style activity, not confirmed Olist revenue.
+9. **Category Opportunity**  
+   Large categories define where seller enablement can most directly move GMV.
 
-## Slide 7: Data Quality
+10. **Fulfillment Friction**  
+   Slow-delivery states turn logistics into seller-review and retention risk.
 
-Message: The project protects against null keys, duplicated order items, broken dimension joins, invalid business values, and inconsistent sales calculations.
+11. **Operating Model**  
+    The dashboard turns the warehouse into a recurring seller review system.
 
-## Slide 8: Platform Growth
+12. **Roadmap**  
+    The next phase should connect seller activity to economics and action ownership.
 
-Message: Show product GMV, gross transaction value, order count, average order value, active sellers, and monthly GMV movement.
+13. **Close**  
+    Decision makers get seller actions. Data specialists can trace the build through raw load, dbt models, tests, Dagster assets, and dashboard marts.
 
-## Slide 9: Product And Demand Signals
+## Core Messages
 
-Message: Rank product categories, customer states, and demand patterns to show where Olist can help sellers expand assortment and regional coverage.
-
-## Slide 10: Regional Concentration
-
-Message: Show Sao Paulo as the demand engine and delivery benchmark, while identifying regional demand pockets where fulfillment may constrain seller growth.
-
-## Slide 11: Operations And Customer Experience
-
-Message: Use delivery time, late delivery risk, freight burden, and review score to identify fulfillment improvements that protect seller performance.
-
-## Slide 12: Seller Health
-
-Message: Highlight active sellers, GMV per seller, top seller concentration, top sellers by GMV, and seller retention/churn proxies.
-
-## Slide 13: Roadmap
-
-Message: Recommend seller retention, account support for high-GMV sellers, logistics improvements, category expansion, and seller service upsell opportunities.
-
-## Slide 14: Conclusion And Way Forward
-
-Message: Use the current analytics as the public-data foundation; the next decision layer should connect seller activity to Olist revenue, retention, and service expansion.
-
-## Slide 15: Close
-
-Message: Close on the seller-focused platform operating view and reinforce that the warehouse provides a repeatable, quality-checked basis for decision making.
+- Product GMV is marketplace activity, not confirmed Olist revenue.
+- The dataset covers roughly September 2016 to September 2018, an early observed two-year window where the platform reached meaningful GMV volume.
+- Payment value belongs at order grain, not item grain.
+- Seller health is the business bridge between raw orders and management action.
+- The final month is excluded from trend charts because it is incomplete.
+- The next decision layer should add internal economics: take rate, SaaS revenue, logistics margin, CAC, LTV, and profitability.

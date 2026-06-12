@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: mart_platform_overview
+    description: Executive-level marketplace and seller-enablement KPIs.
+  - name: mart_monthly_platform_health
+    description: Monthly trend table for GMV, seller activity, customer activity, and experience health.
+  - name: mart_seller_health
+    description: Seller-level decision table for protect, grow, activate, and experience-fix actions.
+    columns:
+      - name: seller_key
+        tests: [not_null, unique]
+  - name: mart_seller_concentration
+    description: Ranked seller GMV concentration and cumulative dependency curve.
+  - name: mart_category_opportunity
+    description: Product category opportunity table balancing demand, seller supply, and experience.
+  - name: mart_regional_fulfillment
+    description: Customer-to-seller state fulfillment performance table.

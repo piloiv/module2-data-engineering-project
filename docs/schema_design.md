@@ -22,10 +22,10 @@ This grain supports:
 
 | Dimension | Source | Description |
 | --- | --- | --- |
-| `dim_customer` | `raw.customers` | Customer identifiers and geography |
-| `dim_product` | `raw.products`, `raw.product_category_name_translation` | Product attributes and English category names |
-| `dim_seller` | `raw.sellers` | Seller identifiers and geography |
-| `dim_date` | `raw.orders` | Reusable date attributes for order, approval, delivery, and estimated delivery dates |
+| `dim_customer` | `raw.raw_customers` | Customer identifiers and geography |
+| `dim_product` | `raw.raw_products`, `raw.raw_product_category_name_translation` | Product attributes and English category names |
+| `dim_seller` | `raw.raw_sellers` | Seller identifiers and geography |
+| `dim_date` | `raw.raw_orders` | Reusable date attributes for order, approval, delivery, and estimated delivery dates |
 
 ## Fact Measures
 
@@ -34,7 +34,7 @@ This grain supports:
 | `price` | Item sale price before freight; used as product GMV |
 | `freight_value` | Shipping charge for the order item |
 | `total_sale_amount` | `price + freight_value`; gross transaction value at item grain |
-| `payment_value` | Total payment value aggregated at order level |
+| `order_payment_value` | Total payment value aggregated at order level; use carefully in item-grain tables |
 | `payment_installments` | Maximum installment count used for the order |
 | `payment_type_count` | Number of distinct payment methods used for the order |
 | `review_score` | Average review score for the order |
@@ -46,3 +46,5 @@ This grain supports:
 The star schema separates descriptive context into dimensions and numeric business events into the fact table. This makes common analytics queries simpler and faster because analysts can aggregate GMV by date, customer location, seller, and product category without repeatedly joining the raw operational tables.
 
 The design intentionally keeps `dim_seller` connected to every order item. That makes seller health analysis a first-class use case: active sellers, GMV per seller, seller concentration, seller geography, delivery performance, and review outcomes can all be measured from the same validated fact table.
+
+Order payment totals are modeled separately in `warehouse.fact_order_payment` so payment analysis can happen at order grain without double-counting multi-item orders. dbt marts build on these warehouse tables to support seller action segmentation, concentration risk, category opportunity, and regional fulfillment decisions.

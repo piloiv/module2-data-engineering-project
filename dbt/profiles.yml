@@ -1,0 +1,8 @@
+module2_olist:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: data/warehouse/module2_project.duckdb
+      schema: warehouse
+      threads: 4

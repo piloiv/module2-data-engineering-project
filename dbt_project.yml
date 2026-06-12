@@ -1,0 +1,22 @@
+name: module2_olist
+version: "1.0.0"
+config-version: 2
+
+profile: module2_olist
+
+model-paths:
+  - dbt/models
+test-paths:
+  - dbt/tests
+macro-paths:
+  - dbt/macros
+clean-targets:
+  - dbt/target
+  - dbt/dbt_packages
+
+models:
+  module2_olist:
+    warehouse:
+      +materialized: table
+    marts:
+      +materialized: table

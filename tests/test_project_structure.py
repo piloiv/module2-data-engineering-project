@@ -18,6 +18,10 @@ def test_required_directories_exist():
         "notebooks",
         "docs/diagrams",
         "slides",
+        "dbt/models/warehouse",
+        "dbt/models/marts",
+        "dashboard",
+        "src/orchestration",
     ]
 
     for directory in required:
@@ -36,6 +40,13 @@ def test_core_project_artifacts_exist():
         "docs/data_lineage.md",
         "docs/schema_design.md",
         "slides/executive_deck_outline.md",
+        "dbt_project.yml",
+        "dbt/profiles.yml",
+        "dbt/models/warehouse/fact_sales.sql",
+        "dbt/models/marts/mart_seller_health.sql",
+        "dashboard/streamlit_app.py",
+        "src/dbt_runner.py",
+        "src/orchestration/definitions.py",
     ]
 
     for file_path in required_files:

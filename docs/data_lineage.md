@@ -6,25 +6,31 @@ Each CSV file in `data/raw` is loaded into DuckDB under the `raw` schema. File n
 
 | Source file | Raw table |
 | --- | --- |
-| `olist_customers_dataset.csv` | `raw.customers` |
-| `olist_geolocation_dataset.csv` | `raw.geolocation` |
-| `olist_order_items_dataset.csv` | `raw.order_items` |
-| `olist_order_payments_dataset.csv` | `raw.order_payments` |
-| `olist_order_reviews_dataset.csv` | `raw.order_reviews` |
-| `olist_orders_dataset.csv` | `raw.orders` |
-| `olist_products_dataset.csv` | `raw.products` |
-| `olist_sellers_dataset.csv` | `raw.sellers` |
-| `product_category_name_translation.csv` | `raw.product_category_name_translation` |
+| `olist_customers_dataset.csv` | `raw.raw_customers` |
+| `olist_geolocation_dataset.csv` | `raw.raw_geolocation` |
+| `olist_order_items_dataset.csv` | `raw.raw_order_items` |
+| `olist_order_payments_dataset.csv` | `raw.raw_order_payments` |
+| `olist_order_reviews_dataset.csv` | `raw.raw_order_reviews` |
+| `olist_orders_dataset.csv` | `raw.raw_orders` |
+| `olist_products_dataset.csv` | `raw.raw_products` |
+| `olist_sellers_dataset.csv` | `raw.raw_sellers` |
+| `product_category_name_translation.csv` | `raw.raw_product_category_name_translation` |
 
 ## Raw To Warehouse
 
 | Warehouse table | Inputs | Transformation logic |
 | --- | --- | --- |
-| `warehouse.dim_customer` | `raw.customers` | Adds surrogate customer key and standardizes city/state text |
-| `warehouse.dim_product` | `raw.products`, `raw.product_category_name_translation` | Adds surrogate product key and English category names |
-| `warehouse.dim_seller` | `raw.sellers` | Adds surrogate seller key and standardizes city/state text |
-| `warehouse.dim_date` | `raw.orders` | Builds reusable date rows from purchase, approval, delivered, and estimated delivery dates |
-| `warehouse.fact_sales` | `raw.order_items`, `raw.orders`, `raw.order_payments`, `raw.order_reviews`, dimensions | Joins order item transactions to dimensions, payment aggregates, review aggregates, and derived delivery measures |
+| `warehouse.dim_customer` | `raw.raw_customers` | Adds surrogate customer key and standardizes city/state text |
+| `warehouse.dim_product` | `raw.raw_products`, `raw.raw_product_category_name_translation` | Adds surrogate product key and English category names |
+| `warehouse.dim_seller` | `raw.raw_sellers` | Adds surrogate seller key and standardizes city/state text |
+| `warehouse.dim_date` | `raw.raw_orders` | Builds reusable date rows from purchase, approval, delivered, and estimated delivery dates |
+| `warehouse.fact_sales` | `raw.raw_order_items`, `raw.raw_orders`, `raw.raw_order_payments`, `raw.raw_order_reviews`, dimensions | Joins order item transactions to dimensions, order-level payment attributes, review aggregates, and derived delivery measures |
+| `warehouse.fact_order_payment` | `raw.raw_order_payments` | Preserves order-level payment totals without multiplying values across order items |
+| `warehouse.mart_platform_overview` | Warehouse facts and dimensions | Executive KPI snapshot for seller enablement |
+| `warehouse.mart_seller_health` | Warehouse facts and dimensions | Seller action segmentation and retention proxies |
+| `warehouse.mart_seller_concentration` | `warehouse.mart_seller_health` | Seller dependency risk by cumulative GMV share |
+| `warehouse.mart_category_opportunity` | Warehouse facts and product dimension | Category demand and seller opportunity |
+| `warehouse.mart_regional_fulfillment` | Warehouse facts, customer dimension, seller dimension | Regional delivery and fulfillment friction |
 
 ## Quality Gates
 

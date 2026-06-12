@@ -35,7 +35,7 @@ def load_csv_files() -> None:
     present = {csv_file.name for csv_file in csv_files}
     missing = sorted(EXPECTED_OLIST_FILES - present)
     if missing:
-        print("Warning: expected Olist files not found: " + ", ".join(missing))
+        print("Warning: expected Olist files not found: " + ", ".join(missing), flush=True)
 
     with duckdb.connect(str(WAREHOUSE_PATH)) as con:
         con.execute("CREATE SCHEMA IF NOT EXISTS raw")
@@ -51,7 +51,7 @@ def load_csv_files() -> None:
                 [str(csv_file)],
             )
             row_count = con.execute(f"SELECT COUNT(*) FROM raw.{table_name}").fetchone()[0]
-            print(f"Loaded {csv_file.name} into raw.{table_name} ({row_count:,} rows)")
+            print(f"Loaded {csv_file.name} into raw.{table_name} ({row_count:,} rows)", flush=True)
 
 
 if __name__ == "__main__":

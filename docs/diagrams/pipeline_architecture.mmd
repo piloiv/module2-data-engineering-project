@@ -1,11 +1,18 @@
 flowchart LR
     A["Raw CSV files"] --> B["Ingestion script"]
     B --> C["DuckDB raw schema"]
-    C --> D["SQL ELT transformations"]
+    C --> D["dbt transformations and tests"]
     D --> E["Warehouse star schema"]
-    E --> F["SQL data quality checks"]
-    E --> G["Python analysis notebook"]
-    F --> H["Validated warehouse"]
-    G --> I["Executive insights"]
-    H --> I
-    I --> J["Report and slide deck"]
+    D --> F["Decision marts"]
+    E --> G["SQL data quality checks"]
+    F --> H["Streamlit dashboard"]
+    E --> I["Python analysis notebook"]
+    G --> J["Validated warehouse"]
+    H --> K["Executive insights"]
+    I --> K
+    J --> K
+    K --> L["Report and slide deck"]
+    M["Dagster orchestration"] --> B
+    M --> D
+    M --> G
+    M --> H

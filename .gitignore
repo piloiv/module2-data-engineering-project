@@ -15,3 +15,9 @@ data/warehouse/*
 !data/processed/.gitkeep
 !data/warehouse/.gitkeep
 outputs/
+dbt/target/
+dbt/dbt_packages/
+dbt/.user.yml
+target/
+logs/
+.streamlit/secrets.toml
