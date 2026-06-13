@@ -28,14 +28,16 @@ Generated after loading the Olist raw CSVs into DuckDB, building the warehouse s
 | Active sellers | 3,095 |
 | Product GMV | 13,591,643.70 |
 | Freight value | 2,251,909.54 |
-| Gross transaction value | 15,843,553.24 |
+| GTV / Gross transaction value | 15,843,553.24 |
 | Product GMV per seller | 4,391.48 |
 | Orders per seller | 31.88 |
 | Average review score | 4.03 |
 | Average delivery days | 12.41 |
 | Average days delivered before estimate | 12.03 |
 
-These values describe marketplace activity visible in the public dataset. Product GMV and gross transaction value should not be presented as Olist revenue because Olist's take rate, SaaS fees, logistics margin, financial services revenue, and operating costs are not included.
+These values describe marketplace-channel activity visible in the public dataset. Product GMV is item price only. Gross transaction value, or GTV, is item price plus freight. Neither measure should be presented as Olist revenue because Olist's take rate, SaaS fees, logistics margin, financial services revenue, and operating costs are not included.
+
+The observed order-item window runs from September 4, 2016 to September 3, 2018. For the management story, October 2016 through September 2018 is the clean two-year operating review window, with the small September 2016 and September 2018 tails treated as partial-period artifacts.
 
 ## Order Status
 
@@ -93,6 +95,8 @@ These values describe marketplace activity visible in the public dataset. Produc
 
 Olist's primary clients are sellers, not end consumers. Buyer orders, reviews, payments, and delivery records are therefore best used as evidence of seller success and platform health.
 
+Olist should not be presented as an Amazon-style owned consumer marketplace for this 2016-2018 dataset. A more accurate framing is that Olist enabled Brazilian merchants to sell through marketplace channels and captured value through seller services, transaction economics, logistics support, software, financial services, and operating execution.
+
 ### Seller Concentration
 
 | Seller Group | Share of Product GMV |
@@ -103,7 +107,7 @@ Olist's primary clients are sellers, not end consumers. Buyer orders, reviews, p
 
 ### Top Sellers by Product GMV
 
-| Seller ID | State | Orders | Items | Product GMV | Gross Transaction Value | Avg Review | Avg Delivery Days |
+| Seller ID | State | Orders | Items | Product GMV | GTV / Gross Transaction Value | Avg Review | Avg Delivery Days |
 |---|---|---:|---:|---:|---:|---:|---:|
 | 4869f7a5dfa277a7dca6462dcf3b52b2 | SP | 1,132 | 1,156 | 229,472.63 | 249,640.70 | 4.12 | 14.94 |
 | 53243585a1d6dc2643021fd1853d8905 | BA | 358 | 410 | 222,776.05 | 235,856.68 | 4.08 | 13.29 |
@@ -133,7 +137,8 @@ Olist's primary clients are sellers, not end consumers. Buyer orders, reviews, p
 
 ## Early Business Readout
 
-- Marketplace activity is concentrated in Sao Paulo: SP contributes the largest order volume, product GMV, seller base, and customer demand.
+- Marketplace-channel activity is concentrated in Sao Paulo: SP contributes the largest order volume, product GMV, seller base, and customer demand.
+- Growth shifts from rapid scaling to a 2018 plateau pattern: monthly Product GMV remains around the 850k-1.0M band through much of 2018 even as active sellers continue increasing.
 - Seller concentration is meaningful: the top 100 sellers contribute 45.06% of product GMV, which creates both account-management opportunity and dependency risk.
 - The strongest GMV categories are health and beauty, watches and gifts, bed/bath/table, sports/leisure, and computer accessories.
 - Customer satisfaction is generally strong, with an average review score of 4.03 and most reviewed orders scoring 4 or 5.
@@ -142,8 +147,9 @@ Olist's primary clients are sellers, not end consumers. Buyer orders, reviews, p
 
 ## Notes for Next Iteration
 
-- `gross_transaction_value` is calculated as item price plus freight at the order-item grain.
-- Product GMV and gross transaction value are not the same as Olist revenue.
+- `product_gmv` is item price only.
+- `gross_transaction_value` is GTV, calculated as item price plus freight at the order-item grain.
+- Product GMV, GTV, and payment value are not the same as Olist revenue.
 - Payment value should be analyzed from `raw.raw_order_payments` or an order-level payment fact to avoid double-counting payments across multi-item orders.
 - The fact table currently contains all item records, including non-delivered statuses; some executive metrics may need a delivered-only filter.
 - Seller retention and churn are proxies based on monthly transaction activity, not confirmed subscription retention.

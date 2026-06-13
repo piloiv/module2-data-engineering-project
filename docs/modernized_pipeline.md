@@ -43,25 +43,28 @@ dagster dev -f src/orchestration/definitions.py
 - `dbt/models/marts`: decision tables for executive and operational analysis.
 - `dbt/tests`: data tests for fact uniqueness, non-negative sales, amount consistency, and review score validity.
 
+The latest saved `dbt build` records 38 outcomes: 12 model builds and 26 dbt tests. The legacy SQL quality suite adds 15 checks from `sql/quality_checks`.
+
 ## Decision Marts
 
 | Mart | Decision use |
 | --- | --- |
-| `mart_platform_overview` | Executive KPI snapshot for GMV, seller base, customer base, reviews, delivery, and freight burden |
+| `mart_platform_overview` | Executive KPI snapshot for Product GMV, GTV, seller base, customer base, reviews, delivery, and freight burden |
 | `mart_monthly_platform_health` | Growth and health trends by month |
 | `mart_seller_health` | Seller-level action segmentation: protect, grow, activate, or fix experience |
-| `mart_seller_concentration` | Dependency risk from high-GMV sellers |
+| `mart_seller_concentration` | Dependency risk from high-Product GMV sellers |
 | `mart_category_opportunity` | Category demand, seller supply, and experience quality |
 | `mart_regional_fulfillment` | Fulfillment friction by customer and seller state |
 
 ## Metric Interpretation
 
-- `product_gmv`: item price, used as the clearest marketplace activity measure.
-- `gross_transaction_value`: item price plus freight, useful for customer transaction burden.
+- `product_gmv`: Product GMV, defined as item price only. It excludes freight and is not confirmed Olist revenue.
+- `gross_transaction_value`: GTV, defined here as item price plus freight. It is useful for understanding customer transaction burden.
 - `order_payment_value`: order-level payment value, stored separately in `fact_order_payment` to avoid double-counting multi-item orders.
 - `late_delivery_rate`: share of delivered items arriving after estimated delivery.
 - `freight_to_price_ratio`: fulfillment cost burden relative to item price.
 - `seller_action_segment`: practical seller-management grouping for account support and operational prioritization.
+- `seller_cac` and `seller_ltv`: recommended future internal metrics for acquisition cost and lifetime value; not available in the public Olist dataset.
 
 ## Automation
 

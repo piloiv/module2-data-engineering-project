@@ -12,7 +12,6 @@ WAREHOUSE_PATH = PROJECT_ROOT / "data" / "warehouse" / "module2_project.duckdb"
 
 st.set_page_config(
     page_title="Olist Seller Enablement Dashboard",
-    page_icon="",
     layout="wide",
 )
 
@@ -57,7 +56,14 @@ latest_month = monthly["month_start"].max()
 completed_monthly = monthly[monthly["month_start"] < latest_month].copy()
 
 st.title("Olist Seller Enablement Dashboard")
-st.caption("Marketplace activity is interpreted as seller-success and GMV signals, not confirmed Olist revenue.")
+st.caption(
+    "Olist is framed as a commerce enablement platform: transaction activity is interpreted as seller-success and Product GMV signals, not confirmed Olist revenue."
+)
+
+st.info(
+    "Business case: after rapid early growth, monthly Product GMV appears to plateau through much of 2018. "
+    "The dashboard focuses on the levers management can act on: seller productivity, category opportunity, regional demand, and fulfillment reliability.",
+)
 
 summary_cols = st.columns(6)
 summary_cols[0].metric("Product GMV", money(row["product_gmv"]))
@@ -68,11 +74,11 @@ summary_cols[4].metric("Avg review", f"{row['avg_review_score']:.2f}")
 summary_cols[5].metric("Late delivery", pct(row["late_delivery_rate"]))
 
 tab_growth, tab_sellers, tab_categories, tab_regions = st.tabs(
-    ["Growth", "Seller health", "Categories", "Fulfillment"]
+    ["Growth plateau", "Seller health", "Category levers", "Fulfillment friction"]
 )
 
 with tab_growth:
-    st.caption(f"Growth charts exclude the latest partial month: {latest_month:%B %Y}.")
+    st.caption(f"Growth charts exclude the latest partial month: {latest_month:%B %Y}. Product GMV is item price only; use the trend to diagnose where growth slowed, not as Olist revenue.")
     left, right = st.columns([2, 1])
     with left:
         st.plotly_chart(

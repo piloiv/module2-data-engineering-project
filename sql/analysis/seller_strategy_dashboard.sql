@@ -1,5 +1,7 @@
 -- Seller-centric strategy queries for the Olist business model.
--- Item prices are treated as product GMV, not confirmed Olist revenue.
+-- Product GMV is item price only, not confirmed Olist revenue.
+-- Gross transaction value (GTV) is item price plus freight.
+-- Payment value is kept at order grain to avoid double-counting multi-item orders.
 
 -- 1. Platform activity and seller base
 SELECT
@@ -14,7 +16,7 @@ SELECT
     ROUND(AVG(delivery_days), 2) AS avg_delivery_days
 FROM warehouse.fact_sales;
 
--- 2. Active sellers and GMV trend by month
+-- 2. Active sellers and Product GMV trend by month
 SELECT
     date_trunc('month', d.full_date)::DATE AS month_start,
     COUNT(DISTINCT fs.seller_key) AS active_sellers,
@@ -26,7 +28,7 @@ INNER JOIN warehouse.dim_date AS d
 GROUP BY month_start
 ORDER BY month_start;
 
--- 3. Top sellers by GMV
+-- 3. Top sellers by Product GMV
 SELECT
     ds.seller_id,
     ds.seller_state,

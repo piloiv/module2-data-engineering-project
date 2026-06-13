@@ -4,13 +4,25 @@ End-to-end data pipeline and analysis project for the Module 2 assignment.
 
 ## Project Goal
 
-Build a data pipeline that ingests raw business data, loads it into a warehouse, transforms it into a star schema, validates data quality, and produces business insights for an executive audience. The business lens is Olist as a seller enablement platform, not a direct online retailer.
+Build a data pipeline that ingests raw business data, loads it into a warehouse, transforms it into a star schema, validates data quality, and produces business insights for an executive audience.
+
+The executive storyline is framed as a management review of Olist's first observed operating years. After a period of rapid marketplace transaction growth, monthly Product GMV appears to level off through much of the second year. The business question is how Olist can reinvigorate growth by improving seller success, not by managing an owned consumer marketplace.
 
 ## Recommended Dataset
 
 Primary recommendation: Brazilian E-Commerce Dataset by Olist.
 
-This dataset is well suited because it supports customers, orders, products, sellers, payments, reviews, geography, and sales analysis. Transaction values in the public dataset are treated as GMV-style marketplace activity, not confirmed Olist revenue.
+This dataset is well suited because it supports customers, orders, products, sellers, payments, reviews, geography, and sales analysis. Transaction values in the public dataset are treated as marketplace-channel activity signals, not confirmed Olist revenue.
+
+Olist is interpreted as a commerce enablement platform: it helps small and medium-sized sellers access multiple online channels and related operating services. The dataset contains buyer-facing order records, but the strategic customer relationship belongs primarily with sellers.
+
+## Metric Definitions
+
+- **Product GMV**: item/product sales value only, using `price`. It excludes freight and is not confirmed Olist revenue.
+- **GTV**: gross transaction value, using `price + freight_value`. In this project, it represents product value plus freight at order-item grain.
+- **Payment value**: customer payment total at order grain. It is modeled separately in `warehouse.fact_order_payment` to avoid double-counting multi-item orders.
+- **CAC**: seller acquisition cost. This is a future internal Olist metric, not included in the public dataset.
+- **LTV**: seller lifetime value. This is a future internal Olist metric, not included in the public dataset.
 
 ## Deliverables
 
@@ -126,6 +138,8 @@ python src/run_pipeline.py
 
 This loads raw CSVs into DuckDB, runs `dbt build`, creates warehouse tables and decision marts, and runs SQL quality checks.
 
+The latest saved build records 38 dbt build outcomes: 12 model builds plus 26 dbt tests. The separate SQL quality suite contains 15 checks in `sql/quality_checks`.
+
 6. Open the Streamlit dashboard.
 
 ```powershell
@@ -162,10 +176,12 @@ The DuckDB database is written to `data/warehouse/module2_project.duckdb`.
 - `warehouse.fact_sales` is one row per order item.
 - `warehouse.fact_order_payment` is one row per order and prevents payment double-counting.
 - Dimensions include customer, product, seller, and date.
-- Seller analysis is a first-class use case because Olist's primary business customers are merchants.
+- Seller analysis is a first-class use case because Olist's primary business customers are merchants rather than end consumers.
 - Decision marts support Streamlit dashboarding and executive recommendations.
 
 ## Data Quality Coverage
+
+The project reports quality coverage as 38 dbt build outcomes plus 15 SQL checks. The 38 dbt outcomes are the saved `dbt build` results: 12 model builds and 26 dbt tests.
 
 SQL checks in `sql/quality_checks` cover:
 
@@ -181,4 +197,7 @@ SQL checks in `sql/quality_checks` cover:
 - Lineage: `docs/data_lineage.md`
 - Schema design: `docs/schema_design.md`
 - Modernized pipeline: `docs/modernized_pipeline.md`
+- Project startup template: `docs/project_startup_template.md`
+- Global custom-instructions snippet: `docs/global_custom_instructions_startup_template.md`
+- Source/reference folder guide: `docs/references/references_folder_guide.md`
 - Mermaid diagram: `docs/diagrams/pipeline_architecture.mmd`
